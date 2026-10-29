@@ -1,7 +1,11 @@
 .env
 .venv/
+venv/
 __pycache__/
 *.pyc
 .pytest_cache/
 outputs/audit_log.jsonl
+outputs/_eval_audit.jsonl
 data/index.pkl
+# uploaded scheme documents stay local unless you deliberately commit public ones
+data/docs/*.pdf
