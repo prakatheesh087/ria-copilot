@@ -1,0 +1,256 @@
+{
+  "client": {
+    "name": "Small Business Owner",
+    "age": 44,
+    "occupation": "business",
+    "monthly_income": 150000,
+    "income_stability": "irregular",
+    "monthly_expenses": 70000,
+    "monthly_emi": 15000,
+    "dependents": 2,
+    "investable_assets": 1500000,
+    "emergency_fund": 500000,
+    "has_term_insurance": false,
+    "has_health_insurance": true,
+    "experience": "direct_equity",
+    "loss_reaction": "hold",
+    "max_drawdown_ok": 0.2,
+    "return_preference": "balanced",
+    "fno_history": false,
+    "fno_drawdown_pct": 0.0,
+    "goals": [
+      {
+        "name": "Business-cycle buffer",
+        "kind": "emergency",
+        "horizon_years": 1,
+        "present_cost": 1020000,
+        "existing_corpus": 500000,
+        "priority": 1,
+        "duration_years": 0.0
+      },
+      {
+        "name": "Retirement at 58",
+        "kind": "retirement",
+        "horizon_years": 14,
+        "present_cost": 15285000.0,
+        "existing_corpus": 1000000,
+        "priority": 1,
+        "duration_years": 0.0
+      }
+    ],
+    "notes": "Irregular cash flow; wants a structured retirement at 58. Prefers SIP plus lump-sum top-ups in good months."
+  },
+  "profile": {
+    "score": 3,
+    "name": "Moderate",
+    "tolerance": 3.52,
+    "capacity": 3.3,
+    "tolerance_factors": {
+      "Reaction to a 20% market fall": 3.5,
+      "Largest tolerable 1-yr fall": 4,
+      "Return objective": 2.5,
+      "Investment experience": 4
+    },
+    "capacity_factors": {
+      "Age": 3,
+      "Income stability": 2,
+      "Liabilities (EMI / income)": 4,
+      "Monthly surplus": 4,
+      "Dependents": 3,
+      "Emergency buffer": 1.5,
+      "Longest goal horizon": 5
+    },
+    "flags": [
+      {
+        "code": "EMERGENCY_FUND_GAP",
+        "severity": "warn",
+        "message": "Emergency fund covers 5.9 months vs 12 needed. Build this first, in overnight / liquid funds."
+      },
+      {
+        "code": "NO_TERM_COVER",
+        "severity": "warn",
+        "message": "Dependents but no term life cover. Recommend term insurance before long-term investing (non-SEBI product: client declaration needed)."
+      }
+    ],
+    "reg16_checklist": {
+      "Age": true,
+      "Investment objectives & horizon": true,
+      "Income details": true,
+      "Existing assets": true,
+      "Risk appetite / tolerance": true,
+      "Liabilities / borrowings": true,
+      "Capacity for absorbing loss": true
+    }
+  },
+  "plan": {
+    "client": "Small Business Owner",
+    "profile": "Moderate",
+    "goal_plans": [
+      {
+        "goal": {
+          "name": "Business-cycle buffer",
+          "kind": "emergency",
+          "horizon_years": 1,
+          "present_cost": 1020000,
+          "existing_corpus": 500000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 1020000,
+        "allocation": {
+          "Overnight Fund": 0.4,
+          "Liquid Fund": 0.6
+        },
+        "stats": {
+          "expected_return": 0.063,
+          "volatility": 0.0056,
+          "weighted_riskometer": 1.6,
+          "growth_share": 0.0,
+          "bad_year_return": 0.0537
+        },
+        "monthly_sip": 43333.0,
+        "step_up": 0.0,
+        "success_probability": 1.0,
+        "outcome_percentiles": {},
+        "glide_path": [],
+        "buckets": [],
+        "notes": [
+          "Emergency money stays in the lowest-risk, same/next-day liquidity categories.",
+          "SIP assumes zero return, so the buffer is complete on time regardless of markets."
+        ]
+      },
+      {
+        "goal": {
+          "name": "Retirement at 58",
+          "kind": "retirement",
+          "horizon_years": 14,
+          "present_cost": 15285000.0,
+          "existing_corpus": 1000000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 34557917.0,
+        "allocation": {
+          "Large Cap Index Fund": 0.27,
+          "Flexi Cap Fund": 0.18,
+          "Gold ETF / FoF": 0.1,
+          "Corporate Bond Fund": 0.18,
+          "Short Duration Fund": 0.135,
+          "Gilt Fund": 0.135
+        },
+        "stats": {
+          "expected_return": 0.0905,
+          "volatility": 0.0788,
+          "weighted_riskometer": 4.55,
+          "growth_share": 0.55,
+          "bad_year_return": -0.0392
+        },
+        "monthly_sip": 60800.0,
+        "step_up": 0.1,
+        "success_probability": 0.701,
+        "outcome_percentiles": {
+          "p10": 30630791.18979219,
+          "p50": 37491278.246295184,
+          "p90": 46272498.70225228
+        },
+        "glide_path": [
+          {
+            "years_to_goal": 14,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 13,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 12,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 11,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 10,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 9,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 8,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 7,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 6,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 5,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 4,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 3,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 2,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 1,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 0,
+            "max_growth_share": 0.0
+          }
+        ],
+        "buckets": [],
+        "notes": [
+          "Growth assets 55% = min(profile ceiling 55%, horizon ceiling 100% for 14 yrs).",
+          "SIP sized for a 70% chance of success (expected-return SIP would be ₹54,639, which succeeds only about half the time)."
+        ]
+      }
+    ],
+    "total_monthly_sip": 104133.0,
+    "monthly_surplus": 65000,
+    "household_allocation": {
+      "Overnight Fund": 0.1484,
+      "Liquid Fund": 0.2226,
+      "Large Cap Index Fund": 0.1698,
+      "Flexi Cap Fund": 0.1132,
+      "Gold ETF / FoF": 0.0629,
+      "Corporate Bond Fund": 0.1132,
+      "Short Duration Fund": 0.0849,
+      "Gilt Fund": 0.0849
+    },
+    "household_stats": {
+      "expected_return": 0.0803,
+      "volatility": 0.05,
+      "weighted_riskometer": 3.46,
+      "growth_share": 0.346,
+      "bad_year_return": -0.002
+    },
+    "flags": [
+      {
+        "code": "SIP_EXCEEDS_SURPLUS",
+        "severity": "warn",
+        "message": "Total SIP ₹104,133 exceeds monthly surplus ₹65,000. Must-have goals alone need ₹104,133. Fund goals in priority order."
+      }
+    ]
+  },
+  "suitability": {
+    "Business-cycle buffer": [],
+    "Retirement at 58": []
+  }
+}

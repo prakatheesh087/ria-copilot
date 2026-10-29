@@ -1,0 +1,303 @@
+{
+  "client": {
+    "name": "Doctor (Patna)",
+    "age": 38,
+    "occupation": "professional",
+    "monthly_income": 350000,
+    "income_stability": "stable",
+    "monthly_expenses": 120000,
+    "monthly_emi": 50000,
+    "dependents": 3,
+    "investable_assets": 4000000,
+    "emergency_fund": 800000,
+    "has_term_insurance": true,
+    "has_health_insurance": true,
+    "experience": "deposits",
+    "loss_reaction": "sell_some",
+    "max_drawdown_ok": 0.08,
+    "return_preference": "preserve",
+    "fno_history": false,
+    "fno_drawdown_pct": 0.0,
+    "goals": [
+      {
+        "name": "Parents' healthcare corpus",
+        "kind": "healthcare",
+        "horizon_years": 5,
+        "present_cost": 2500000,
+        "existing_corpus": 1000000,
+        "priority": 1,
+        "duration_years": 0.0
+      },
+      {
+        "name": "Retirement at 58",
+        "kind": "retirement",
+        "horizon_years": 20,
+        "present_cost": 29582000.0,
+        "existing_corpus": 3000000,
+        "priority": 1,
+        "duration_years": 0.0
+      }
+    ],
+    "notes": "High income but risk-averse; supports parents."
+  },
+  "profile": {
+    "score": 2,
+    "name": "Moderately Conservative",
+    "tolerance": 1.8,
+    "capacity": 4.08,
+    "tolerance_factors": {
+      "Reaction to a 20% market fall": 2,
+      "Largest tolerable 1-yr fall": 2,
+      "Return objective": 1,
+      "Investment experience": 2
+    },
+    "capacity_factors": {
+      "Age": 4,
+      "Income stability": 4.5,
+      "Liabilities (EMI / income)": 4,
+      "Monthly surplus": 5,
+      "Dependents": 2,
+      "Emergency buffer": 3,
+      "Longest goal horizon": 5
+    },
+    "flags": [
+      {
+        "code": "CAPACITY_EXCEEDS_TOLERANCE",
+        "severity": "info",
+        "message": "Client can afford more risk (4.08) than they are comfortable with (1.8). Respect the stated tolerance; show the shortfall risk this creates instead of pushing equity."
+      },
+      {
+        "code": "EMERGENCY_FUND_GAP",
+        "severity": "warn",
+        "message": "Emergency fund covers 4.7 months vs 6 needed. Build this first, in overnight / liquid funds."
+      }
+    ],
+    "reg16_checklist": {
+      "Age": true,
+      "Investment objectives & horizon": true,
+      "Income details": true,
+      "Existing assets": true,
+      "Risk appetite / tolerance": true,
+      "Liabilities / borrowings": true,
+      "Capacity for absorbing loss": true
+    }
+  },
+  "plan": {
+    "client": "Doctor (Patna)",
+    "profile": "Moderately Conservative",
+    "goal_plans": [
+      {
+        "goal": {
+          "name": "Parents' healthcare corpus",
+          "kind": "healthcare",
+          "horizon_years": 5,
+          "present_cost": 2500000,
+          "existing_corpus": 1000000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 4212645.0,
+        "allocation": {
+          "Large Cap Index Fund": 0.3,
+          "Gold ETF / FoF": 0.05,
+          "Corporate Bond Fund": 0.26,
+          "Short Duration Fund": 0.195,
+          "Gilt Fund": 0.195
+        },
+        "stats": {
+          "expected_return": 0.0834,
+          "volatility": 0.055,
+          "weighted_riskometer": 4.0,
+          "growth_share": 0.35,
+          "bad_year_return": -0.007
+        },
+        "monthly_sip": 33000.0,
+        "step_up": 0.1,
+        "success_probability": 0.703,
+        "outcome_percentiles": {
+          "p10": 3973543.9260856714,
+          "p50": 4392531.902784552,
+          "p90": 4866156.088695464
+        },
+        "glide_path": [
+          {
+            "years_to_goal": 5,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 4,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 3,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 2,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 1,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 0,
+            "max_growth_share": 0.0
+          }
+        ],
+        "buckets": [],
+        "notes": [
+          "Healthcare corpus may be needed suddenly: growth assets capped at 40%.",
+          "Growth assets 35% = min(profile ceiling 35%, horizon ceiling 55% for 5 yrs).",
+          "SIP sized for a 70% chance of success (expected-return SIP would be ₹30,754, which succeeds only about half the time)."
+        ]
+      },
+      {
+        "goal": {
+          "name": "Retirement at 58",
+          "kind": "retirement",
+          "horizon_years": 20,
+          "present_cost": 29582000.0,
+          "existing_corpus": 3000000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 94873482.0,
+        "allocation": {
+          "Large Cap Index Fund": 0.3,
+          "Gold ETF / FoF": 0.05,
+          "Corporate Bond Fund": 0.26,
+          "Short Duration Fund": 0.195,
+          "Gilt Fund": 0.195
+        },
+        "stats": {
+          "expected_return": 0.0834,
+          "volatility": 0.055,
+          "weighted_riskometer": 4.0,
+          "growth_share": 0.35,
+          "bad_year_return": -0.007
+        },
+        "monthly_sip": 66700.0,
+        "step_up": 0.1,
+        "success_probability": 0.703,
+        "outcome_percentiles": {
+          "p10": 85559225.45529862,
+          "p50": 101966725.28717685,
+          "p90": 121210836.30688435
+        },
+        "glide_path": [
+          {
+            "years_to_goal": 20,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 19,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 18,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 17,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 16,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 15,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 14,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 13,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 12,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 11,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 10,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 9,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 8,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 7,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 6,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 5,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 4,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 3,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 2,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 1,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 0,
+            "max_growth_share": 0.0
+          }
+        ],
+        "buckets": [],
+        "notes": [
+          "Growth assets 35% = min(profile ceiling 35%, horizon ceiling 100% for 20 yrs).",
+          "SIP sized for a 70% chance of success (expected-return SIP would be ₹60,442, which succeeds only about half the time)."
+        ]
+      }
+    ],
+    "total_monthly_sip": 99700.0,
+    "monthly_surplus": 180000,
+    "household_allocation": {
+      "Large Cap Index Fund": 0.3,
+      "Gold ETF / FoF": 0.05,
+      "Corporate Bond Fund": 0.26,
+      "Short Duration Fund": 0.195,
+      "Gilt Fund": 0.195
+    },
+    "household_stats": {
+      "expected_return": 0.0834,
+      "volatility": 0.055,
+      "weighted_riskometer": 4.0,
+      "growth_share": 0.35,
+      "bad_year_return": -0.007
+    },
+    "flags": []
+  },
+  "suitability": {
+    "Parents' healthcare corpus": [],
+    "Retirement at 58": []
+  }
+}

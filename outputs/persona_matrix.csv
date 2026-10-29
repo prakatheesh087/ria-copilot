@@ -1,0 +1,12 @@
+Persona,Profile,Tolerance,Capacity,Key flags,Goal,Horizon (y),Target / corpus (₹),Monthly SIP (₹),Growth share,Exp. return,Riskometer (wtd),P(success),Suitability,Top allocation
+Fresh Graduate,Moderate,2.62,4.58,"CAPACITY_EXCEEDS_TOLERANCE, EMERGENCY_FUND_GAP",Emergency fund,1,180000,13333,0%,6.3%,1.6,100%,PASS,"Liquid Fund 60%, Overnight Fund 40%"
+Fresh Graduate,Moderate,2.62,4.58,"CAPACITY_EXCEEDS_TOLERANCE, EMERGENCY_FUND_GAP",Long-term wealth,22,18017687,10800,55%,9.0%,4.55,71%,PASS,"Large Cap Index Fund 27%, Flexi Cap Fund 18%, Corporate Bond Fund 18%"
+Young Couple,Moderately Aggressive,3.67,3.98,EMERGENCY_FUND_GAP,Emergency top-up,1,630000,19167,0%,6.3%,1.6,100%,PASS,"Liquid Fund 60%, Overnight Fund 40%"
+Young Couple,Moderately Aggressive,3.67,3.98,EMERGENCY_FUND_GAP,Child's higher education,15,10443120,16000,70%,9.8%,5.0,71%,PASS,"Large Cap Index Fund 27%, Flexi Cap Fund 21%, Mid Cap Fund 12%"
+Small Business Owner,Moderate,3.52,3.3,"EMERGENCY_FUND_GAP, NO_TERM_COVER",Business-cycle buffer,1,1020000,43333,0%,6.3%,1.6,100%,PASS,"Liquid Fund 60%, Overnight Fund 40%"
+Small Business Owner,Moderate,3.52,3.3,"EMERGENCY_FUND_GAP, NO_TERM_COVER",Retirement at 58,14,34557917,60800,55%,9.0%,4.55,70%,PASS,"Large Cap Index Fund 27%, Flexi Cap Fund 18%, Corporate Bond Fund 18%"
+Doctor (Patna),Moderately Conservative,1.8,4.08,"CAPACITY_EXCEEDS_TOLERANCE, EMERGENCY_FUND_GAP",Parents' healthcare corpus,5,4212645,33000,35%,8.3%,4.0,70%,PASS,"Large Cap Index Fund 30%, Corporate Bond Fund 26%, Short Duration Fund 20%"
+Doctor (Patna),Moderately Conservative,1.8,4.08,"CAPACITY_EXCEEDS_TOLERANCE, EMERGENCY_FUND_GAP",Retirement at 58,20,94873482,66700,35%,8.3%,4.0,70%,PASS,"Large Cap Index Fund 30%, Corporate Bond Fund 26%, Short Duration Fund 20%"
+Retiree (Chennai),Moderately Conservative,1.8,2.67,,Monthly income for 25 years,25,8000000,0,25%,8.0%,3.62,7%,PASS,"Corporate Bond Fund 25%, Conservative Hybrid Fund 20%, Large Cap Index Fund 20%"
+Aggressive Trader,Moderate,4.92,4.42,"SPECULATIVE_LOSS_HISTORY, EMERGENCY_FUND_GAP",Emergency fund,1,360000,21667,0%,6.3%,1.6,100%,PASS,"Liquid Fund 60%, Overnight Fund 40%"
+Aggressive Trader,Moderate,4.92,4.42,"SPECULATIVE_LOSS_HISTORY, EMERGENCY_FUND_GAP",Wealth in 15 years,15,9586233,14200,55%,9.0%,4.55,70%,PASS,"Large Cap Index Fund 27%, Flexi Cap Fund 18%, Corporate Bond Fund 18%"

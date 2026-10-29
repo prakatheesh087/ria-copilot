@@ -1,0 +1,254 @@
+{
+  "client": {
+    "name": "Aggressive Trader",
+    "age": 29,
+    "occupation": "salaried",
+    "monthly_income": 120000,
+    "income_stability": "stable",
+    "monthly_expenses": 50000,
+    "monthly_emi": 10000,
+    "dependents": 0,
+    "investable_assets": 300000,
+    "emergency_fund": 100000,
+    "has_term_insurance": false,
+    "has_health_insurance": true,
+    "experience": "derivatives",
+    "loss_reaction": "buy_more",
+    "max_drawdown_ok": 0.4,
+    "return_preference": "max_growth",
+    "fno_history": true,
+    "fno_drawdown_pct": 0.6,
+    "goals": [
+      {
+        "name": "Emergency fund",
+        "kind": "emergency",
+        "horizon_years": 1,
+        "present_cost": 360000,
+        "existing_corpus": 100000,
+        "priority": 1,
+        "duration_years": 0.0
+      },
+      {
+        "name": "Wealth in 15 years",
+        "kind": "wealth",
+        "horizon_years": 15,
+        "present_cost": 4000000,
+        "existing_corpus": 300000,
+        "priority": 2,
+        "duration_years": 0.0
+      }
+    ],
+    "notes": "Lost ~60% of trading capital in F&O; wants to 'recover losses fast'."
+  },
+  "profile": {
+    "score": 3,
+    "name": "Moderate",
+    "tolerance": 4.92,
+    "capacity": 4.42,
+    "tolerance_factors": {
+      "Reaction to a 20% market fall": 5,
+      "Largest tolerable 1-yr fall": 5,
+      "Return objective": 5,
+      "Investment experience": 4.5
+    },
+    "capacity_factors": {
+      "Age": 5,
+      "Income stability": 4.5,
+      "Liabilities (EMI / income)": 4,
+      "Monthly surplus": 5,
+      "Dependents": 5,
+      "Emergency buffer": 1.5,
+      "Longest goal horizon": 5
+    },
+    "flags": [
+      {
+        "code": "SPECULATIVE_LOSS_HISTORY",
+        "severity": "block",
+        "message": "Client reports F&O losses of 60% of capital. SEBI's FY25 study found ~91% of individual F&O traders lost money. Derivatives / intraday / leveraged advice is blocked; profile capped at 'Moderate' pending RIA counselling and re-assessment in 12 months."
+      },
+      {
+        "code": "EMERGENCY_FUND_GAP",
+        "severity": "warn",
+        "message": "Emergency fund covers 1.7 months vs 6 needed. Build this first, in overnight / liquid funds."
+      }
+    ],
+    "reg16_checklist": {
+      "Age": true,
+      "Investment objectives & horizon": true,
+      "Income details": true,
+      "Existing assets": true,
+      "Risk appetite / tolerance": true,
+      "Liabilities / borrowings": true,
+      "Capacity for absorbing loss": true
+    }
+  },
+  "plan": {
+    "client": "Aggressive Trader",
+    "profile": "Moderate",
+    "goal_plans": [
+      {
+        "goal": {
+          "name": "Emergency fund",
+          "kind": "emergency",
+          "horizon_years": 1,
+          "present_cost": 360000,
+          "existing_corpus": 100000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 360000,
+        "allocation": {
+          "Overnight Fund": 0.4,
+          "Liquid Fund": 0.6
+        },
+        "stats": {
+          "expected_return": 0.063,
+          "volatility": 0.0056,
+          "weighted_riskometer": 1.6,
+          "growth_share": 0.0,
+          "bad_year_return": 0.0537
+        },
+        "monthly_sip": 21667.0,
+        "step_up": 0.0,
+        "success_probability": 1.0,
+        "outcome_percentiles": {},
+        "glide_path": [],
+        "buckets": [],
+        "notes": [
+          "Emergency money stays in the lowest-risk, same/next-day liquidity categories.",
+          "SIP assumes zero return, so the buffer is complete on time regardless of markets."
+        ]
+      },
+      {
+        "goal": {
+          "name": "Wealth in 15 years",
+          "kind": "wealth",
+          "horizon_years": 15,
+          "present_cost": 4000000,
+          "existing_corpus": 300000,
+          "priority": 2,
+          "duration_years": 0.0
+        },
+        "target_future_value": 9586233.0,
+        "allocation": {
+          "Large Cap Index Fund": 0.27,
+          "Flexi Cap Fund": 0.18,
+          "Gold ETF / FoF": 0.1,
+          "Corporate Bond Fund": 0.18,
+          "Short Duration Fund": 0.135,
+          "Gilt Fund": 0.135
+        },
+        "stats": {
+          "expected_return": 0.0905,
+          "volatility": 0.0788,
+          "weighted_riskometer": 4.55,
+          "growth_share": 0.55,
+          "bad_year_return": -0.0392
+        },
+        "monthly_sip": 14200.0,
+        "step_up": 0.1,
+        "success_probability": 0.703,
+        "outcome_percentiles": {
+          "p10": 8385858.061910145,
+          "p50": 10456858.402575234,
+          "p90": 12912795.782820765
+        },
+        "glide_path": [
+          {
+            "years_to_goal": 15,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 14,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 13,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 12,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 11,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 10,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 9,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 8,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 7,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 6,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 5,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 4,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 3,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 2,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 1,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 0,
+            "max_growth_share": 0.0
+          }
+        ],
+        "buckets": [],
+        "notes": [
+          "Growth assets 55% = min(profile ceiling 55%, horizon ceiling 100% for 15 yrs).",
+          "SIP sized for a 70% chance of success (expected-return SIP would be ₹12,665, which succeeds only about half the time)."
+        ]
+      }
+    ],
+    "total_monthly_sip": 35867.0,
+    "monthly_surplus": 60000,
+    "household_allocation": {
+      "Overnight Fund": 0.1734,
+      "Liquid Fund": 0.2601,
+      "Large Cap Index Fund": 0.1529,
+      "Flexi Cap Fund": 0.102,
+      "Gold ETF / FoF": 0.0566,
+      "Corporate Bond Fund": 0.102,
+      "Short Duration Fund": 0.0765,
+      "Gilt Fund": 0.0765
+    },
+    "household_stats": {
+      "expected_return": 0.0786,
+      "volatility": 0.0452,
+      "weighted_riskometer": 3.27,
+      "growth_share": 0.311,
+      "bad_year_return": 0.0043
+    },
+    "flags": []
+  },
+  "suitability": {
+    "Emergency fund": [],
+    "Wealth in 15 years": []
+  }
+}

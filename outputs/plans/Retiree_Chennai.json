@@ -1,0 +1,162 @@
+{
+  "client": {
+    "name": "Retiree (Chennai)",
+    "age": 68,
+    "occupation": "retired",
+    "monthly_income": 35000,
+    "income_stability": "pension",
+    "monthly_expenses": 75000,
+    "monthly_emi": 0.0,
+    "dependents": 1,
+    "investable_assets": 8000000,
+    "emergency_fund": 900000,
+    "has_term_insurance": false,
+    "has_health_insurance": true,
+    "experience": "deposits",
+    "loss_reaction": "sell_some",
+    "max_drawdown_ok": 0.05,
+    "return_preference": "preserve",
+    "fno_history": false,
+    "fno_drawdown_pct": 0.0,
+    "goals": [
+      {
+        "name": "Monthly income for 25 years",
+        "kind": "income",
+        "horizon_years": 0,
+        "present_cost": 40000,
+        "existing_corpus": 8000000,
+        "priority": 1,
+        "duration_years": 25
+      }
+    ],
+    "notes": "₹80L corpus + ₹35k pension; needs ₹40k/month from the corpus to cover ₹75k expenses."
+  },
+  "profile": {
+    "score": 2,
+    "name": "Moderately Conservative",
+    "tolerance": 1.8,
+    "capacity": 2.67,
+    "tolerance_factors": {
+      "Reaction to a 20% market fall": 2,
+      "Largest tolerable 1-yr fall": 2,
+      "Return objective": 1,
+      "Investment experience": 2
+    },
+    "capacity_factors": {
+      "Age": 1,
+      "Income stability": 3.5,
+      "Liabilities (EMI / income)": 5,
+      "Monthly surplus": 1,
+      "Dependents": 4,
+      "Emergency buffer": 5,
+      "Longest goal horizon": 1
+    },
+    "flags": [],
+    "reg16_checklist": {
+      "Age": true,
+      "Investment objectives & horizon": true,
+      "Income details": true,
+      "Existing assets": true,
+      "Risk appetite / tolerance": true,
+      "Liabilities / borrowings": true,
+      "Capacity for absorbing loss": true
+    }
+  },
+  "plan": {
+    "client": "Retiree (Chennai)",
+    "profile": "Moderately Conservative",
+    "goal_plans": [
+      {
+        "goal": {
+          "name": "Monthly income for 25 years",
+          "kind": "income",
+          "horizon_years": 0,
+          "present_cost": 40000,
+          "existing_corpus": 8000000,
+          "priority": 1,
+          "duration_years": 25
+        },
+        "target_future_value": 8000000,
+        "allocation": {
+          "Liquid Fund": 0.09,
+          "Money Market Fund": 0.09,
+          "Short Duration Fund": 0.168,
+          "Corporate Bond Fund": 0.248,
+          "Conservative Hybrid Fund": 0.204,
+          "Large Cap Index Fund": 0.2
+        },
+        "stats": {
+          "expected_return": 0.0799,
+          "volatility": 0.0433,
+          "weighted_riskometer": 3.62,
+          "growth_share": 0.251,
+          "bad_year_return": 0.0087
+        },
+        "monthly_sip": 0.0,
+        "step_up": 0.0,
+        "success_probability": 0.067,
+        "outcome_percentiles": {
+          "sustainable_monthly_withdrawal": 34433.0,
+          "safe_withdrawal_85pct": 30300.0
+        },
+        "glide_path": [],
+        "buckets": [
+          {
+            "bucket": "1 - Spend (yrs 1-3)",
+            "amount": 1440000,
+            "mix": {
+              "Liquid Fund": 0.5,
+              "Money Market Fund": 0.5
+            }
+          },
+          {
+            "bucket": "2 - Stability (yrs 4-10)",
+            "amount": 3360000,
+            "mix": {
+              "Short Duration Fund": 0.4,
+              "Corporate Bond Fund": 0.4,
+              "Conservative Hybrid Fund": 0.2
+            }
+          },
+          {
+            "bucket": "3 - Growth (yrs 11+)",
+            "amount": 3200000,
+            "mix": {
+              "Large Cap Index Fund": 0.5,
+              "Conservative Hybrid Fund": 0.3,
+              "Corporate Bond Fund": 0.2
+            }
+          }
+        ],
+        "notes": [
+          "Requested ₹40,000/month (rising 6%/yr) for 25 yrs: 7% chance the corpus lasts.",
+          "Sustainable at expected return: ₹34,433/month; with 85% confidence: ₹30,300/month.",
+          "Bucket 1 is refilled annually from Bucket 2, and Bucket 2 from Bucket 3 after good years (never sell growth assets in a falling market to fund spending).",
+          "Withdraw via a monthly SWP from Bucket 1.",
+          "Requested income exceeds what the corpus can sustain. Options: cut withdrawals by about ₹9,700/month, skip inflation increases in bad years, or move part of the corpus to sovereign-backed fixed-income products (outside SEBI's MF scope; client declaration needed)."
+        ]
+      }
+    ],
+    "total_monthly_sip": 0.0,
+    "monthly_surplus": -40000.0,
+    "household_allocation": {
+      "Liquid Fund": 0.09,
+      "Money Market Fund": 0.09,
+      "Short Duration Fund": 0.168,
+      "Corporate Bond Fund": 0.248,
+      "Conservative Hybrid Fund": 0.204,
+      "Large Cap Index Fund": 0.2
+    },
+    "household_stats": {
+      "expected_return": 0.0799,
+      "volatility": 0.0433,
+      "weighted_riskometer": 3.62,
+      "growth_share": 0.251,
+      "bad_year_return": 0.0087
+    },
+    "flags": []
+  },
+  "suitability": {
+    "Monthly income for 25 years": []
+  }
+}

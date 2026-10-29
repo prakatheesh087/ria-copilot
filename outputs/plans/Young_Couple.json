@@ -1,0 +1,251 @@
+{
+  "client": {
+    "name": "Young Couple",
+    "age": 31,
+    "occupation": "dual_income",
+    "monthly_income": 160000,
+    "income_stability": "stable",
+    "monthly_expenses": 60000,
+    "monthly_emi": 45000,
+    "dependents": 1,
+    "investable_assets": 600000,
+    "emergency_fund": 400000,
+    "has_term_insurance": true,
+    "has_health_insurance": true,
+    "experience": "mutual_funds",
+    "loss_reaction": "hold",
+    "max_drawdown_ok": 0.2,
+    "return_preference": "growth",
+    "fno_history": false,
+    "fno_drawdown_pct": 0.0,
+    "goals": [
+      {
+        "name": "Emergency top-up",
+        "kind": "emergency",
+        "horizon_years": 1,
+        "present_cost": 630000,
+        "existing_corpus": 400000,
+        "priority": 1,
+        "duration_years": 0.0
+      },
+      {
+        "name": "Child's higher education",
+        "kind": "education",
+        "horizon_years": 15,
+        "present_cost": 2500000,
+        "existing_corpus": 200000,
+        "priority": 1,
+        "duration_years": 0.0
+      }
+    ],
+    "notes": "Dual income with a home loan; child's education in 15 years."
+  },
+  "profile": {
+    "score": 4,
+    "name": "Moderately Aggressive",
+    "tolerance": 3.67,
+    "capacity": 3.98,
+    "tolerance_factors": {
+      "Reaction to a 20% market fall": 3.5,
+      "Largest tolerable 1-yr fall": 4,
+      "Return objective": 4,
+      "Investment experience": 3
+    },
+    "capacity_factors": {
+      "Age": 4,
+      "Income stability": 4.5,
+      "Liabilities (EMI / income)": 3,
+      "Monthly surplus": 4,
+      "Dependents": 4,
+      "Emergency buffer": 3,
+      "Longest goal horizon": 5
+    },
+    "flags": [
+      {
+        "code": "EMERGENCY_FUND_GAP",
+        "severity": "warn",
+        "message": "Emergency fund covers 3.8 months vs 6 needed. Build this first, in overnight / liquid funds."
+      }
+    ],
+    "reg16_checklist": {
+      "Age": true,
+      "Investment objectives & horizon": true,
+      "Income details": true,
+      "Existing assets": true,
+      "Risk appetite / tolerance": true,
+      "Liabilities / borrowings": true,
+      "Capacity for absorbing loss": true
+    }
+  },
+  "plan": {
+    "client": "Young Couple",
+    "profile": "Moderately Aggressive",
+    "goal_plans": [
+      {
+        "goal": {
+          "name": "Emergency top-up",
+          "kind": "emergency",
+          "horizon_years": 1,
+          "present_cost": 630000,
+          "existing_corpus": 400000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 630000,
+        "allocation": {
+          "Overnight Fund": 0.4,
+          "Liquid Fund": 0.6
+        },
+        "stats": {
+          "expected_return": 0.063,
+          "volatility": 0.0056,
+          "weighted_riskometer": 1.6,
+          "growth_share": 0.0,
+          "bad_year_return": 0.0537
+        },
+        "monthly_sip": 19167.0,
+        "step_up": 0.0,
+        "success_probability": 1.0,
+        "outcome_percentiles": {},
+        "glide_path": [],
+        "buckets": [],
+        "notes": [
+          "Emergency money stays in the lowest-risk, same/next-day liquidity categories.",
+          "SIP assumes zero return, so the buffer is complete on time regardless of markets."
+        ]
+      },
+      {
+        "goal": {
+          "name": "Child's higher education",
+          "kind": "education",
+          "horizon_years": 15,
+          "present_cost": 2500000,
+          "existing_corpus": 200000,
+          "priority": 1,
+          "duration_years": 0.0
+        },
+        "target_future_value": 10443120.0,
+        "allocation": {
+          "Large Cap Index Fund": 0.27,
+          "Flexi Cap Fund": 0.21,
+          "Mid Cap Fund": 0.12,
+          "Gold ETF / FoF": 0.1,
+          "Corporate Bond Fund": 0.12,
+          "Short Duration Fund": 0.09,
+          "Gilt Fund": 0.09
+        },
+        "stats": {
+          "expected_return": 0.0983,
+          "volatility": 0.1076,
+          "weighted_riskometer": 5.0,
+          "growth_share": 0.7,
+          "bad_year_return": -0.0787
+        },
+        "monthly_sip": 16000.0,
+        "step_up": 0.1,
+        "success_probability": 0.71,
+        "outcome_percentiles": {
+          "p10": 8781237.575141761,
+          "p50": 11777989.005931687,
+          "p90": 15668589.644700138
+        },
+        "glide_path": [
+          {
+            "years_to_goal": 15,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 14,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 13,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 12,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 11,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 10,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 9,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 8,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 7,
+            "max_growth_share": 0.7
+          },
+          {
+            "years_to_goal": 6,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 5,
+            "max_growth_share": 0.55
+          },
+          {
+            "years_to_goal": 4,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 3,
+            "max_growth_share": 0.35
+          },
+          {
+            "years_to_goal": 2,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 1,
+            "max_growth_share": 0.1
+          },
+          {
+            "years_to_goal": 0,
+            "max_growth_share": 0.0
+          }
+        ],
+        "buckets": [],
+        "notes": [
+          "Growth assets 70% = min(profile ceiling 70%, horizon ceiling 100% for 15 yrs).",
+          "SIP sized for a 70% chance of success (expected-return SIP would be ₹13,633, which succeeds only about half the time)."
+        ]
+      }
+    ],
+    "total_monthly_sip": 35167.0,
+    "monthly_surplus": 55000,
+    "household_allocation": {
+      "Overnight Fund": 0.2466,
+      "Liquid Fund": 0.3699,
+      "Large Cap Index Fund": 0.1036,
+      "Flexi Cap Fund": 0.0805,
+      "Mid Cap Fund": 0.046,
+      "Gold ETF / FoF": 0.0384,
+      "Corporate Bond Fund": 0.046,
+      "Short Duration Fund": 0.0345,
+      "Gilt Fund": 0.0345
+    },
+    "household_stats": {
+      "expected_return": 0.0765,
+      "volatility": 0.0418,
+      "weighted_riskometer": 2.9,
+      "growth_share": 0.268,
+      "bad_year_return": 0.0077
+    },
+    "flags": []
+  },
+  "suitability": {
+    "Emergency top-up": [],
+    "Child's higher education": []
+  }
+}
