@@ -112,7 +112,8 @@
         "notes": [
           "Emergency money stays in the lowest-risk, same/next-day liquidity categories.",
           "SIP assumes zero return, so the buffer is complete on time regardless of markets."
-        ]
+        ],
+        "success_range": []
       },
       {
         "goal": {
@@ -219,6 +220,10 @@
         "notes": [
           "Growth assets 70% = min(profile ceiling 70%, horizon ceiling 100% for 15 yrs).",
           "SIP sized for a 70% chance of success (expected-return SIP would be ₹13,633, which succeeds only about half the time)."
+        ],
+        "success_range": [
+          0.694,
+          0.726
         ]
       }
     ],

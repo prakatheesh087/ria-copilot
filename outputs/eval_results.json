@@ -1,0 +1,148 @@
+{
+  "environment": {
+    "python": "3.13.17",
+    "os": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+    "llm": "offline (no API key): templates + extractive document answers",
+    "app_version": "1.1.0",
+    "ruleset": "2026.10.29"
+  },
+  "financial_checks": {
+    "passed": 4,
+    "total": 4
+  },
+  "compliance_heldout": {
+    "should_block": 15,
+    "blocked": 15,
+    "missed": [],
+    "should_allow": 15,
+    "false_refusals": [],
+    "block_rate": 1.0,
+    "false_refusal_rate": 0.0
+  },
+  "persona_probes": {
+    "passed": 13,
+    "total": 13
+  },
+  "document_qa": {
+    "answerable": 8,
+    "retrieval_top1_page_accuracy": 1.0,
+    "first_citation_correct_page": 1.0,
+    "unanswerable": 3,
+    "correctly_said_insufficient": 3,
+    "detail": [
+      {
+        "q": "What is the exit load on day 3?",
+        "expected_page": 4,
+        "method": "extractive",
+        "cited_pages": [
+          4,
+          4,
+          4
+        ],
+        "correct": true
+      },
+      {
+        "q": "What is the total expense ratio of the regular plan?",
+        "expected_page": 5,
+        "method": "extractive",
+        "cited_pages": [
+          5,
+          5
+        ],
+        "correct": true
+      },
+      {
+        "q": "Who manages the scheme?",
+        "expected_page": 2,
+        "method": "extractive",
+        "cited_pages": [
+          2
+        ],
+        "correct": true
+      },
+      {
+        "q": "What is the benchmark index?",
+        "expected_page": 2,
+        "method": "extractive",
+        "cited_pages": [
+          2
+        ],
+        "correct": true
+      },
+      {
+        "q": "What is the minimum application amount?",
+        "expected_page": 5,
+        "method": "extractive",
+        "cited_pages": [
+          5,
+          5
+        ],
+        "correct": true
+      },
+      {
+        "q": "Can the scheme invest in REITs?",
+        "expected_page": 3,
+        "method": "extractive",
+        "cited_pages": [
+          3
+        ],
+        "correct": true
+      },
+      {
+        "q": "What is the investment objective?",
+        "expected_page": 2,
+        "method": "extractive",
+        "cited_pages": [
+          2
+        ],
+        "correct": true
+      },
+      {
+        "q": "Is there an entry load?",
+        "expected_page": 4,
+        "method": "extractive",
+        "cited_pages": [
+          4,
+          4,
+          4
+        ],
+        "correct": true
+      },
+      {
+        "q": "What is the lock-in period for ELSS?",
+        "expected_page": null,
+        "method": "not-found",
+        "cited_pages": [],
+        "correct": true
+      },
+      {
+        "q": "Who is the CEO of the AMC?",
+        "expected_page": null,
+        "method": "not-found",
+        "cited_pages": [],
+        "correct": true
+      },
+      {
+        "q": "What were the returns last year?",
+        "expected_page": null,
+        "method": "not-found",
+        "cited_pages": [],
+        "correct": true
+      }
+    ],
+    "note": "Synthetic 5-page SID; does not measure tables, scans or real multi-document sets."
+  },
+  "latency_ms": {
+    "plan_generation": {
+      "n": 30,
+      "median": 236,
+      "p95": 355
+    },
+    "document_answer_offline": {
+      "n": 11,
+      "median": 0.2,
+      "p95": 0.4
+    },
+    "note": "Offline mode on the machine running this script. With Gemini, add model/network latency."
+  }
+}

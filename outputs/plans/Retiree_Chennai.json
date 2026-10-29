@@ -134,6 +134,10 @@
           "Bucket 1 is refilled annually from Bucket 2, and Bucket 2 from Bucket 3 after good years (never sell growth assets in a falling market to fund spending).",
           "Withdraw via a monthly SWP from Bucket 1.",
           "Requested income exceeds what the corpus can sustain. Options: cut withdrawals by about ₹9,700/month, skip inflation increases in bad years, or move part of the corpus to sovereign-backed fixed-income products (outside SEBI's MF scope; client declaration needed)."
+        ],
+        "success_range": [
+          0.058,
+          0.076
         ]
       }
     ],

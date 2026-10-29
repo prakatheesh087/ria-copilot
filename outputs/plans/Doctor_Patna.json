@@ -150,6 +150,10 @@
           "Healthcare corpus may be needed suddenly: growth assets capped at 40%.",
           "Growth assets 35% = min(profile ceiling 35%, horizon ceiling 55% for 5 yrs).",
           "SIP sized for a 70% chance of success (expected-return SIP would be ₹30,754, which succeeds only about half the time)."
+        ],
+        "success_range": [
+          0.687,
+          0.719
         ]
       },
       {
@@ -275,6 +279,10 @@
         "notes": [
           "Growth assets 35% = min(profile ceiling 35%, horizon ceiling 100% for 20 yrs).",
           "SIP sized for a 70% chance of success (expected-return SIP would be ₹60,442, which succeeds only about half the time)."
+        ],
+        "success_range": [
+          0.687,
+          0.719
         ]
       }
     ],
