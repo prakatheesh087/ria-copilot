@@ -1,0 +1,30 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Byte-compile (syntax check)
+        run: python -m compileall -q copilot scripts app.py
+      - name: Unit tests
+        run: pytest -q
+      - name: Persona matrix and measured evaluation (offline)
+        run: |
+          python scripts/run_personas.py
+          python scripts/evaluate.py
