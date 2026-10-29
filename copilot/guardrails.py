@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 
-from .config import AI_DISCLOSURE, CATEGORIES, PROFILES, RISKOMETER_SCORE, STANDARD_DISCLAIMER
+from .config import AI_DISCLOSURE, CATEGORIES, PROFILES, RISKOMETER_SCORE, RULESET_VERSION, STANDARD_DISCLAIMER
 from .planner import growth_weight, horizon_cap, portfolio_stats
 from .profiling import RiskProfile
 
@@ -26,6 +26,7 @@ class Verdict:
     reason: str = ""
     reply: str = ""
     rules_fired: list[str] = field(default_factory=list)
+    ruleset: str = RULESET_VERSION
 
 
 # ======================================================================
@@ -34,18 +35,20 @@ class Verdict:
 _I = re.IGNORECASE
 RULES = [
     ("PROMPT_INJECTION",
-     re.compile(r"ignore (all |any |the )?(previous|prior|above) (instructions|rules)|you are now|act as (an? )?(unregistered|unrestricted)|developer mode|jailbreak", _I),
+     re.compile(r"(ignore|forget|disregard) (all |any |the |your )?((previous|prior|above) )?(instructions|rules|guidelines)|you are now|"
+                r"act as (an? |my )?(unregistered|unrestricted|stock ?broker|broker|tipster)|developer mode|jailbreak", _I),
      "This request tries to change the co-pilot's compliance rules, which cannot be overridden from chat."),
     ("MARKET_ABUSE",
-     re.compile(r"insider|unpublished price sensitive|upsi|pump|operator stock|telegram tip|front.?run", _I),
+     re.compile(r"insider|unpublished price sensitive|upsi|pump|operator stock|telegram tip|front.?run|"
+                r"(results|news|numbers|announcement) (early|before)|before (it is|it's|they are) (announced|public)", _I),
      "I can't help with trading on non-public information or tips that may involve market manipulation."),
     ("DERIVATIVES",
      re.compile(r"(\bf\s?&\s?o\b|\bfno\b|\bfutures? (trading|contracts?)\b|\boptions? (trading|selling|buying|contracts?|strateg\w*)\b|"
-                r"\b(call|put) options?\b|\bintraday\b|\bmargin trading\b|\bleverag\w*\b|\bstraddle\b|\bstrangle\b|"
+                r"\b(call|put) options?\b|\b(sell|selling|write|writing|buy|buying) (\w+ )?options\b|\bintraday\b|\bmargin trading\b|\bleverag\w*\b|\bstraddle\b|\bstrangle\b|"
                 r"\bexpiry day\b|\bbank ?nifty\b|\bweekly expiry\b)", _I),
      None),  # reply depends on profile, handled below
     ("GUARANTEE_REQUEST",
-     re.compile(r"guarantee|assured return|sure.?shot|risk.?free (return|fund|investment|scheme)|no.?risk (fund|investment)|zero.?risk|double (my|the) money|can'?t lose", _I),
+     re.compile(r"guarantee|assured return|sure.?shot|risk.?free (return|fund|investment|scheme)|no.?risk (fund|investment)|no risk at all|without (any )?risk|zero.?risk|double (my|the) money|can'?t lose", _I),
      "No mutual fund can guarantee returns. Even overnight and liquid funds carry some credit and interest-rate risk. "
      "I can show the range of likely outcomes and the chance of meeting your goal instead."),
     ("CRYPTO_UNREGULATED",
@@ -55,7 +58,9 @@ RULES = [
      re.compile(r"(which|what) (stock|share)s? (should|to) buy|target price|multibagger|stock tip|buy shares of|penny stock", _I),
      "This co-pilot advises on mutual fund portfolios only. Individual stock recommendations are outside its scope."),
     ("PROFILE_OVERRIDE",
-     re.compile(r"ignore (my )?risk profile|override (the )?(risk|suitability)|(all|100\s?%|entire|everything) (in|into) (small.?cap|mid.?cap|equity|sectoral|thematic)|skip (the )?(risk )?profil", _I),
+     re.compile(r"ignore (my )?risk profile|override (the )?(risk|suitability)|"
+                r"(\ball\b|100\s?%|\bentire\b|\beverything\b|\bwhole\b)[^.?!]{0,40}\b(in|into)\s+(small.?cap|mid.?cap|equity|sectoral|thematic)|"
+                r"skip (the )?(risk )?profil", _I),
      "That allocation would not match your risk profile, so I can't recommend it. If your circumstances or comfort "
      "with risk have changed, your adviser can re-run the risk profile with you, and the plan will update from that."),
     ("REGULAR_PLAN",
@@ -197,3 +202,27 @@ def mask_pii(text: str) -> tuple[str, list[str]]:
             found.append(label)
             text = rx.sub(f"[{label}]", text)
     return text, found
+
+
+# ======================================================================
+# Instructions embedded in uploaded documents (indirect prompt injection)
+# ======================================================================
+DOC_INJECTION = re.compile(
+    r"(ignore|disregard|forget) (all |any |the )?(previous|prior|above|earlier) (instructions|rules|guidelines)"
+    r"|you are now\b|system prompt|developer mode|jailbreak|act as (an? )?\w+ (assistant|adviser|advisor)"
+    r"|(recommend|tell (the )?(user|investor|client)s? to) (buy|invest)[^.]{0,60}(guaranteed|100\s?%|all (their|your) money)",
+    _I)
+
+
+def neutralise_instructions(text: str) -> tuple[str, int]:
+    """Replace instruction-like sentences in document text before it is indexed or sent to the LLM.
+    Document text is data; it can never change the co-pilot's rules."""
+    n = 0
+    out = []
+    for sent in re.split(r"(?<=[.!?])\s+", text):
+        if DOC_INJECTION.search(sent):
+            n += 1
+            out.append("[instruction-like text removed from document]")
+        else:
+            out.append(sent)
+    return " ".join(out), n

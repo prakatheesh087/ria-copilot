@@ -11,10 +11,11 @@ import plotly.graph_objects as go
 import streamlit as st
 
 from copilot import advisor, audit, guardrails, llm, personas
-from copilot.config import AI_DISCLOSURE, CATEGORIES, DATA_CUTOFF, PROFILES, STANDARD_DISCLAIMER
-from copilot.planner import portfolio_stats
+from copilot.config import (AI_DISCLOSURE, APP_VERSION, CATEGORIES, DATA_CUTOFF, MAX_UPLOAD_MB, PROFILES,
+                            RULESET_VERSION, STANDARD_DISCLAIMER)
+from copilot.planner import portfolio_stats, stress_test
 from copilot.profiling import ClientInput, Goal
-from copilot.rag import DocIndex
+from copilot.rag import DocIndex, DocumentError, validate_pdf_bytes
 
 ROOT = Path(__file__).parent
 DOCS_DIR = ROOT / "data" / "docs"
@@ -61,6 +62,7 @@ with st.sidebar:
     st.divider()
     st.markdown(f"**LLM:** {'🟢 Gemini connected' if llm.available() else '⚪ offline mode (templates + extractive Q&A)'}")
     st.markdown(f"**Docs indexed:** {len(st.session_state.index.docs)} · **Data cut-off:** {DATA_CUTOFF}")
+    st.caption(f"App v{APP_VERSION} · rule set {RULESET_VERSION}")
     ack = st.checkbox("Client informed of AI-tool usage", value=True,
                       help="SEBI IA Guidelines (8 Jan 2025) require disclosing the extent of AI use to clients.")
     with st.expander("AI disclosure text"):
@@ -195,7 +197,8 @@ with tab2:
                         k1, k2, k3 = st.columns(3)
                         k1.metric("Requested", inr(g["present_cost"]) + "/mo")
                         k2.metric("Sustainable", inr(gp.outcome_percentiles["sustainable_monthly_withdrawal"]) + "/mo")
-                        k3.metric("Corpus lasts (prob.)", f"{gp.success_probability:.0%}")
+                        k3.metric("Corpus lasts (prob.)", f"{gp.success_probability:.0%}",
+                                  help="Monte Carlo estimate at the requested withdrawal; not a prediction.")
                         st.dataframe(pd.DataFrame([{"Bucket": b["bucket"], "Amount": inr(b["amount"]),
                                                     "Mix": ", ".join(f"{k} {v:.0%}" for k, v in b["mix"].items())}
                                                    for b in gp.buckets]), hide_index=True, width="stretch")
@@ -203,7 +206,10 @@ with tab2:
                         k1, k2, k3 = st.columns(3)
                         k1.metric("Target (future ₹)", inr(gp.target_future_value))
                         k2.metric("Monthly SIP", inr(gp.monthly_sip), f"+{gp.step_up:.0%}/yr" if gp.step_up else None)
-                        k3.metric("Chance of success", f"{gp.success_probability:.0%}")
+                        k3.metric("Chance of success", f"{gp.success_probability:.0%}",
+                                  help=(f"Monte Carlo estimate; 95% sampling range "
+                                        f"{gp.success_range[0]:.0%}–{gp.success_range[1]:.0%}. "
+                                        "An estimate under stated assumptions, not a prediction.") if gp.success_range else None)
                         if gp.glide_path:
                             gpdf = pd.DataFrame(gp.glide_path)
                             fig = px.area(gpdf, x="years_to_goal", y="max_growth_share", height=160)
@@ -223,6 +229,19 @@ with tab2:
                                f"1-in-20 bad year {s['bad_year_return']:.0%} · riskometer {s['weighted_riskometer']}/6")
                     for i in issues:
                         (st.error if i["severity"] == "block" else st.warning)(i["message"])
+                if g["kind"] != "emergency":
+                    lbl = ("Stress test: the recommended withdrawal under adverse assumptions" if g["kind"] == "income"
+                           else "Stress test: the same SIP under adverse assumptions")
+                    with st.expander(lbl):
+                        rows = stress_test(gp)
+                        sdf = pd.DataFrame([{
+                            "Scenario": r["scenario"],
+                            "Target / corpus": inr(r["target"]),
+                            "Chance of success": f"{r['probability']:.0%}",
+                            "95% sampling range": f"{r['low']:.0%}–{r['high']:.0%}"} for r in rows])
+                        st.dataframe(sdf, hide_index=True, width="stretch")
+                        st.caption("Each row changes one assumption and keeps the plan fixed. Estimates under stated "
+                                   "assumptions, not forecasts; the range covers simulation noise only.")
 
         st.subheader("Adviser override (re-checked live)")
         st.caption("Edit weights to test an alternative; the suitability engine re-validates it against the client's profile.")
@@ -261,14 +280,31 @@ with tab3:
         st.markdown("**Documents**")
         idx: DocIndex = st.session_state.index
         for d in idx.docs:
-            st.caption("📄 " + d)
+            m = idx.meta.get(d, {})
+            info = f"{m.get('pages', '?')} pages · dated {m.get('date') or 'unknown'}"
+            if m.get("pages_without_text"):
+                info += f" · {m['pages_without_text']} scanned page(s) not searchable"
+            if m.get("instructions_removed"):
+                info += f" · {m['instructions_removed']} instruction-like passage(s) neutralised"
+            st.caption(f"📄 **{d}** — {info}")
+        for fname, err in idx.errors.items():
+            st.warning(f"Skipped {err}")
         if idx.docs and all(d.startswith("SYNTHETIC") for d in idx.docs):
             st.info("Only the synthetic test SID is loaded. Upload real SIDs / KIMs / factsheets for the demo.")
-        ups = st.file_uploader("Add SID / KIM / factsheet PDFs", type="pdf", accept_multiple_files=True)
+        st.caption("Check each document's date: answers are only as current as the PDF you load.")
+        ups = st.file_uploader(f"Add SID / KIM / factsheet PDFs (max {MAX_UPLOAD_MB} MB each)", type="pdf",
+                               accept_multiple_files=True)
         if ups and st.button("Index uploaded PDFs"):
             DOCS_DIR.mkdir(parents=True, exist_ok=True)
             for u in ups:
-                (DOCS_DIR / u.name).write_bytes(u.getbuffer())
+                data = bytes(u.getbuffer())
+                safe_name = Path(u.name).name.replace("..", "_")
+                try:
+                    validate_pdf_bytes(data, safe_name)
+                except DocumentError as e:
+                    st.error(str(e))
+                    continue
+                (DOCS_DIR / safe_name).write_bytes(data)
             st.session_state.index = load_index()
             st.rerun()
         st.markdown("**Try:**")
@@ -286,7 +322,7 @@ with tab3:
         if q:
             st.session_state.chat.append({"role": "user", "content": q})
             r = advisor.chat(q, client, profile, plan, st.session_state.index)
-            meta = f"route: {r['route']}" + (f" · rule: {r['rule']}" if r.get("rule") else "")
+            meta = f"route: {r['route']}" + (f" · rule: {r['rule']} (rule set {r['ruleset']})" if r.get("rule") else "")
             if r.get("citations"):
                 meta += " · sources: " + "; ".join(f"{c['doc']} p.{c['page']}" for c in r["citations"])
             if r.get("dropped"):

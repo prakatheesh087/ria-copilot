@@ -12,6 +12,14 @@ from __future__ import annotations
 # ---------------------------------------------------------------------------
 DATA_CUTOFF = "2026-10-26"
 
+# Version of the rule set (profiling weights, ceilings, guardrail regexes).
+# Written into every audit record and every block decision so outputs are traceable.
+APP_VERSION = "1.1.0"
+RULESET_VERSION = "2026.10.29"
+
+# Upload limits for scheme documents
+MAX_UPLOAD_MB = 20
+
 # ---------------------------------------------------------------------------
 # SEBI riskometer (SEBI circular Oct 2020, six levels, effective 1 Jan 2021)
 # ---------------------------------------------------------------------------

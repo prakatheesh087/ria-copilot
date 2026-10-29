@@ -1,7 +1,12 @@
 """Append-only audit trail (SEBI IA Reg. 19 record-keeping; AI decisions must be traceable).
 
-Each line is JSON with a hash chain, so any later edit to a past record is detectable.
-PII is masked before writing.
+Each line is JSON carrying the app version, rule-set version and the hash of the previous record.
+What the hash chain DETECTS: editing, deleting, inserting or reordering any record in the middle of
+the file, when checked with verify_chain().
+What it does NOT detect: someone who rewrites the whole file and recomputes every hash, or who
+truncates the most recent records. It is tamper-EVIDENT, not tamper-proof; production use would add
+write-restricted storage, periodic off-site anchoring of the latest hash, and access control.
+Client names are stored only as a SHA-256 prefix (pseudonymous, not anonymous); PII patterns are masked before writing.
 """
 from __future__ import annotations
 
@@ -10,6 +15,7 @@ import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+from .config import APP_VERSION, DATA_CUTOFF, RULESET_VERSION
 from .guardrails import mask_pii
 
 LOG_PATH = Path(__file__).resolve().parent.parent / "outputs" / "audit_log.jsonl"
@@ -37,6 +43,9 @@ def log(event: str, client_ref: str, payload: dict, rules_fired: list[str] | Non
         "event": event,
         "client_ref": hashlib.sha256(client_ref.encode()).hexdigest()[:12],
         "rules_fired": rules_fired or [],
+        "app_version": APP_VERSION,
+        "ruleset": RULESET_VERSION,
+        "data_cutoff": DATA_CUTOFF,
         "payload": json.loads(body),
         "prev": _last_hash(path),
     }

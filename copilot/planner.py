@@ -171,13 +171,20 @@ def required_sip(target: float, years: float, r: float, lumpsum: float, step_up:
             hi = mid
         else:
             lo = mid
-    return round(hi, 0)
+    return float(math.ceil(hi))  # round UP so the SIP never falls short of the target
 
 
 def mc_success(sip: float, step_up: float, years: float, alloc: dict[str, float],
-               lumpsum: float, target: float, seed: int = SEED) -> tuple[float, dict]:
+               lumpsum: float, target: float, seed: int = SEED,
+               return_shift: float = 0.0, crash: float = 0.0) -> tuple[float, dict]:
+    """Share of simulated paths that reach `target`.
+    Model: monthly log-normal returns matching the portfolio's annual mean and volatility (planning
+    assumptions in config.py, nominal and pre-tax); contributions at the END of each month; SIP rises
+    by `step_up` every 12 months. Scenario knobs: `return_shift` changes the annual expected return;
+    `crash` is a one-off fall applied to the growth-asset share at the end of month 12."""
     stats = portfolio_stats(alloc)
-    mu, sd = stats["expected_return"], stats["volatility"]
+    mu, sd = stats["expected_return"] + return_shift, stats["volatility"]
+    gshare = growth_weight(alloc)
     months = max(1, int(round(years * 12)))
     # lognormal monthly returns matching annual mean / vol
     sig_m = math.sqrt(math.log(1 + (sd / (1 + mu)) ** 2) / 12)
@@ -191,6 +198,8 @@ def mc_success(sip: float, step_up: float, years: float, alloc: dict[str, float]
         if m and m % 12 == 0:
             s *= 1 + step_up
         bal = bal * growth[:, m] + s
+        if crash and m == min(11, months - 1):
+            bal = bal * (1 + crash * gshare)
     p = float((bal >= target).mean())
     pct = {f"p{q}": float(np.percentile(bal, q)) for q in (10, 50, 90)}
     return round(p, 3), pct
@@ -264,9 +273,12 @@ def _decum_end_balance(corpus, w, years, r, infl):
     return bal
 
 
-def mc_depletion(corpus, w, years, alloc, infl, seed=SEED):
+def mc_depletion(corpus, w, years, alloc, infl, seed=SEED, return_shift=0.0, crash=0.0):
+    """Share of paths in which the corpus is never exhausted while paying `w` a month (rising with
+    `infl` yearly). `crash` hits the growth share at the end of month 12 (sequence-of-returns risk)."""
     stats = portfolio_stats(alloc)
-    mu, sd = stats["expected_return"], stats["volatility"]
+    mu, sd = stats["expected_return"] + return_shift, stats["volatility"]
+    gshare = growth_weight(alloc)
     months = int(years * 12)
     sig_m = math.sqrt(math.log(1 + (sd / (1 + mu)) ** 2) / 12)
     mu_m = math.log(1 + mu) / 12 - 0.5 * sig_m ** 2
@@ -279,6 +291,8 @@ def mc_depletion(corpus, w, years, alloc, infl, seed=SEED):
         if m and m % 12 == 0:
             cur *= 1 + infl
         bal = bal * g[:, m] - cur
+        if crash and m == 11:
+            bal = bal * (1 + crash * gshare)
         alive &= bal > 0
     return round(float(alive.mean()), 3)
 
@@ -297,6 +311,50 @@ class GoalPlan:
     glide_path: list
     buckets: list = field(default_factory=list)
     notes: list = field(default_factory=list)
+    success_range: tuple = ()   # 95% sampling interval of the Monte Carlo estimate
+
+
+def sampling_range(p: float, n: int = N_SIMS) -> tuple[float, float]:
+    """95% interval for a simulated probability (binomial sampling error only; it does NOT capture
+    error in the return assumptions themselves, which the stress scenarios address)."""
+    half = 1.96 * math.sqrt(max(p * (1 - p), 1e-12) / n)
+    return (round(max(0.0, p - half), 3), round(min(1.0, p + half), 3))
+
+
+SCENARIOS = {
+    "Baseline": {},
+    "Lower returns (-2 pts a year)": {"return_shift": -0.02},
+    "Higher inflation (+2 pts a year)": {"infl_shift": 0.02},
+    "Crash in year 1 (-30% on growth assets)": {"crash": -0.30},
+    "All three together": {"return_shift": -0.02, "infl_shift": 0.02, "crash": -0.30},
+}
+
+
+def stress_test(gp: "GoalPlan") -> list[dict]:
+    """Re-run the SAME plan (same SIP and allocation) under adverse assumptions.
+    For retirement income, the recommended 85%-safe withdrawal is stressed (the requested amount
+    already fails at baseline). Shows how fragile the plan is; it is not a forecast."""
+    g = dict(gp.goal)
+    if g["kind"] == "income" and gp.outcome_percentiles.get("safe_withdrawal_85pct"):
+        g["present_cost"] = gp.outcome_percentiles["safe_withdrawal_85pct"]
+    rows = []
+    base_infl = INFLATION.get(g["kind"], INFLATION["general"])
+    for name, sc in SCENARIOS.items():
+        infl = base_infl + sc.get("infl_shift", 0.0)
+        rs, cr = sc.get("return_shift", 0.0), sc.get("crash", 0.0)
+        if g["kind"] == "income":
+            p = mc_depletion(g["existing_corpus"], g["present_cost"], g["duration_years"], gp.allocation, infl,
+                             return_shift=rs, crash=cr)
+            target = g["existing_corpus"]
+        elif g["kind"] == "emergency":
+            continue
+        else:
+            target = g["present_cost"] * (1 + infl) ** g["horizon_years"]
+            p, _ = mc_success(gp.monthly_sip, gp.step_up, g["horizon_years"], gp.allocation, g["existing_corpus"],
+                              target, return_shift=rs, crash=cr)
+        lo, hi = sampling_range(p)
+        rows.append({"scenario": name, "target": round(target), "probability": p, "low": lo, "high": hi})
+    return rows
 
 
 @dataclass
@@ -339,7 +397,8 @@ def plan_goal(goal: Goal, profile: RiskProfile, step_up: float = 0.10, confidenc
                          f"₹{gap:,.0f}/month, skip inflation increases in bad years, or move part of the corpus to "
                          "sovereign-backed fixed-income products (outside SEBI's MF scope; client declaration needed).")
         return GoalPlan(asdict(goal), goal.existing_corpus, alloc, st, 0.0, 0.0, p_ok,
-                        {"sustainable_monthly_withdrawal": sus, "safe_withdrawal_85pct": safe}, [], buckets, notes)
+                        {"sustainable_monthly_withdrawal": sus, "safe_withdrawal_85pct": safe}, [], buckets, notes,
+                        sampling_range(p_ok))
 
     alloc, notes = accumulation_allocation(goal, profile)
     st = portfolio_stats(alloc)
@@ -359,7 +418,7 @@ def plan_goal(goal: Goal, profile: RiskProfile, step_up: float = 0.10, confidenc
     notes.append(f"SIP sized for a {confidence:.0%} chance of success (expected-return SIP would be "
                  f"₹{sip_mean:,.0f}, which succeeds only about half the time).")
     return GoalPlan(asdict(goal), round(target, 0), alloc, st, sip, su, p, pct,
-                    glide_path(goal, profile), [], notes)
+                    glide_path(goal, profile), [], notes, sampling_range(p))
 
 
 def sip_for_confidence(target, years, alloc, lumpsum, step_up, confidence, start) -> float:

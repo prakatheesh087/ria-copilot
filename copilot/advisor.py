@@ -160,8 +160,9 @@ def chat(q: str, client: ClientInput, profile: RiskProfile, plan: Plan, index: D
     v = screen_request(q, profile)
     if not v.allowed:
         text, viol = filter_output(v.reply)
-        audit.log("chat_blocked", client.name, {"q": q, "rule": v.rule}, [v.rule])
-        return {"answer": text, "route": "guardrail", "rule": v.rule, "citations": [], "violations": viol}
+        audit.log("chat_blocked", client.name, {"q": q, "rule": v.rule, "reason": v.reason}, [v.rule])
+        return {"answer": text, "route": "guardrail", "rule": v.rule, "ruleset": v.ruleset,
+                "citations": [], "violations": viol}
 
     if index and index.chunks and DOC_HINTS.search(q):
         ans = rag_answer(q, index)
